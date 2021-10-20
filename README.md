@@ -2,7 +2,7 @@
 
 A landmark-based cover for KeplerMapper.
 
-`LandmarkCover` was designed to work with [KeplerMapper](https://scikit-tda.org/kepler-mapper). The class is derived from the `kmapper.cover.Cover` base class, and departs from the existing `kmapper.cover.CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
+`LandmarkCover` was designed to work with [KeplerMapper](https://scikit-tda.org/kepler-mapper). The class is derived from the `kmapper.Cover` base class, and departs from the existing `CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
 
 
 
@@ -58,7 +58,7 @@ draw_trefoil3d(X[:,0], X[:,1], X[:,2])
 
 ```
 
-<p align="center">
+<p align="left">
 <a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
 <img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/trefoil_knot.png?raw=true" width="80%">
 </a>
@@ -112,7 +112,7 @@ geodesic_distances = r_isomap._reciprocal_distances(X).toarray()
 
 ```
 
-<p align="center">
+<p align="left">
 <a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
 <img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/geodesic_lens.png?raw=true" width="50%">
 </a>
