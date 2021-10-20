@@ -139,7 +139,7 @@ graph = mapper.map(
 html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover_geodesic_lens.html')
 
 ```
-https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/geodesic_lens.png
+
 <p align="center">
 <a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
 <img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_landmark_cover_geodesic_lens_with_summary.png?raw=true">
