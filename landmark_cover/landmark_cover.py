@@ -7,6 +7,7 @@ Authors: Caleb Geniesse, geniesse@stanford.edu
 import numpy as np
 from kmapper.cover import Cover
 from sklearn.neighbors import NearestNeighbors
+from scipy.sparse import issparse
 from torch_cluster import fps
 import torch
 
@@ -44,16 +45,16 @@ class LandmarkCover(Cover):
     def __init__(self, 
                  n_landmarks=None, 
                  perc_overlap=0.5, 
+                 radius=None,
                  metric='minkowski',
                  p=1, 
                  metric_params=None,
                  n_jobs=None, 
                  verbose=0
-        ):
-        # self.centers_ = None
-        
+        ):        
         self.n_landmarks = n_landmarks
         self.perc_overlap = perc_overlap
+        self.radius = radius 
         self.metric = metric
         self.p = p
         self.metric_params = metric_params
@@ -65,9 +66,10 @@ class LandmarkCover(Cover):
 
 
     def __repr__(self):
-        return "LandmarkCover(n_landmarks=%s, perc_overlap=%s, metric=%s, p=%s, metric_params=%s, n_jobs=%s)" % (
+        return "LandmarkCover(n_landmarks=%s, perc_overlap=%s, radius=%s, metric=%s, p=%s, metric_params=%s, n_jobs=%s)" % (
             self.n_landmarks,
             self.perc_overlap,
+            self.radius,
             self.metric,
             self.p,
             self.metric_params,
@@ -91,16 +93,13 @@ class LandmarkCover(Cover):
             A list of centers for each bin
 
         """
-
-        # TODO: support indexing into any columns
-        di = np.array(range(1, data.shape[1]))
+        
+        # create indexless copy of data
+        di = np.arange(1, data.shape[1])
         indexless_data = data[:, di]
-        n_dims = indexless_data.shape[1]
-        n_samples = indexless_data.shape[0]
+        n_samples, n_dims = indexless_data.shape
 
-        # TODO: implement landmarking
-        # TODO: should we run fps on geodesic distances?
-        # TODO: does this work if data is a distance matrix?
+        # furthest point sampling of landmark points
         landmark_ratio = self.n_landmarks / n_samples
         landmarks = fps(
             torch.Tensor(indexless_data),
@@ -108,52 +107,41 @@ class LandmarkCover(Cover):
             ratio=landmark_ratio,
             random_start=False # first node will be used as starting node
         )
-        landmarks = landmarks.numpy()
-        landmarks.sort()
-
+        landmarks = landmarks.numpy() 
 
         # extract centers (just set to input data points)
-        centers = indexless_data[landmarks, :]
+        centers = indexless_data[sorted(landmarks)]
 
-        
-        # set radius
-        landmark_nbrs = NearestNeighbors(
+        # setup neighbors, compute landmark to data distances
+        neighbors_estimator = NearestNeighbors(
             metric=self.metric, p=self.p,
             metric_params=self.metric_params,
             n_jobs=self.n_jobs
         )
-        landmark_nbrs.fit(centers)
-        landmark_distances = landmark_nbrs.kneighbors_graph(
-            X=data[:, di], n_neighbors=2, mode='distance',
-        )
-        
-        # TODO: compute radius based on perc_overlap
-        # TODO: accept fixed eps as a parameter?
-        nonzeros = landmark_distances.A
-        nonzeros[nonzeros < 1e-8] = np.nan
-        epsilon = np.nanmax(np.nanmin(nonzeros, axis=1))
-        radius = self.perc_overlap * (4. * epsilon)
+        neighbors_estimator.fit(indexless_data)
 
-        
+        # compute radius (i.e., max min distance to a landmark)
+        if self.radius is None:
+            landmark_distances = neighbors_estimator.kneighbors_graph(
+                X=centers, n_neighbors=n_samples, mode='distance',
+            )
+            nonzeros = landmark_distances.A
+            nonzeros[nonzeros < 1e-8] = np.nan
+            eps = np.nanmax(np.nanmin(nonzeros, axis=0))
+            radius = self.perc_overlap * (4. * eps)
+
+        # store computed variables       
+        self.di_ = di
+        self.landmarks_ = landmarks
         self.centers_ = centers
         self.radius_ = radius
-        self.epsilon_ = epsilon
+        self.neighbors_estimator_ = neighbors_estimator
 
-        self.landmark_ratio_ = landmark_ratio
-        self.landmarks_ = landmarks
-        self.landmark_nbrs_ = landmark_nbrs
-        
-        # TODO: kmapper expects n_cubes, perc_overlap, so set these for now
-        # self.n_cubes = self.n_landmarks
-        # self.perc_overlap = self.perc_overlap
-
-        #self.nbrs_matrix_ = A
-        self.di_ = di
-
+        # display landmarks, centers
         if self.verbose > 0:
             print(
-                " - LandmarkCover - landmarks: %s\ncenters: %s"
-                % (self.landmarks_, self.centers_)
+                " - LandmarkCover\nradius: %s\nlandmarks: %s\ncenters:%s"
+                % (self.radius_, self.landmarks_, self.centers_)
             )
 
         return centers
@@ -172,14 +160,23 @@ class LandmarkCover(Cover):
         i: int, default 0
             Optional counter to aid in verbose debugging.
         """
-        
-        self.landmark_nbrs_.fit(center.reshape(1,-1))
-        hyperbin = self.landmark_nbrs_.radius_neighbors_graph(
-            X=data[:,self.di_], radius=self.radius_,
-            mode='connectivity',
+
+        # create indexless copy of data
+        indexless_data = data[:, self.di_]
+        n_samples, n_dims = indexless_data.shape
+
+        # make sure data used during fit matches data to be transformed
+        if ((n_samples != self.neighbors_estimator_.n_samples_fit_) or 
+               (n_dims != self.neighbors_estimator_.n_features_in_)):
+            self.neighbors_estimator_.fit(indexless_data) 
+
+        # compute landmark bin membership
+        hyperbin = self.neighbors_estimator_.radius_neighbors_graph(
+            X=center[np.newaxis, :], radius=self.radius_, mode='connectivity',
         )
-        hyperbin = data[hyperbin.nonzero()[0]]
+        hyperbin = data[sorted(hyperbin.nonzero()[1])]
         
+        # display counts?
         if self.verbose > 1:
             print(
                 "There are %s points in landmark bin %s/%s"
@@ -187,6 +184,7 @@ class LandmarkCover(Cover):
             )
 
         return hyperbin
+
 
     def transform(self, data, centers=None):
         """ Find entries of all hyperbins. If `centers=None`, then use `self.centers_` as computed in `self.fit`.
@@ -208,14 +206,19 @@ class LandmarkCover(Cover):
 
         """
 
+        # check for new centers
         centers = centers or self.centers_
+        
+        # transform centers
         hyperbins = [
-            self.transform_single(data, center, i) for i, center in enumerate(centers)
+             self.transform_single(data, center, i) for i, center in enumerate(centers)
         ]
+        
+        # clean out any empty cubes (common in high dimensions)
+        hyperbins = [hyperbin for hyperbin in hyperbins if len(hyperbin)]
 
-        # Clean out any empty cubes (common in high dimensions)
-        hyperbins = [bin for bin in hyperbins if len(bin)]
         return hyperbins
+
 
     def fit_transform(self, data):
         self.fit(data)
