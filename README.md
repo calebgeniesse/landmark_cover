@@ -76,13 +76,10 @@ from sklearn.cluster import AgglomerativeClustering
 # setup KeplerMapper object
 mapper = KeplerMapper(verbose=1)
 
-# create low dimensional lens 
-lens = mapper.fit_transform(X, projection=[0,1])
-
 # run KeplerMapper using the LandmarkCover
 graph = mapper.map(
-    lens=lens, X=X,
-    cover=LandmarkCover(n_landmarks=30, perc_overlap=0.33),
+    lens=X, X=X,
+    cover=LandmarkCover(n_landmarks=30, perc_overlap=0.35, metric='euclidean'),
     clusterer=AgglomerativeClustering(n_clusters=3, linkage='single'),
     remove_duplicate_nodes=True,
 )
@@ -91,6 +88,12 @@ graph = mapper.map(
 html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover.html')
 
 ```
+
+<p align="center">
+<a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
+<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_landmark_cover.png?raw=true">
+</a>
+</p>
 
 
 
@@ -131,7 +134,7 @@ mapper = KeplerMapper(verbose=1)
 # run KeplerMapper using the LandmarkCover
 graph = mapper.map(
     lens=geodesic_distances, X=X,
-    cover=LandmarkCover(n_landmarks=30, perc_overlap=0.33),
+    cover=LandmarkCover(n_landmarks=30, perc_overlap=0.35, metric='precomputed'),
     clusterer=AgglomerativeClustering(n_clusters=3, linkage='single'),
     remove_duplicate_nodes=True,
 )
@@ -140,6 +143,14 @@ graph = mapper.map(
 html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover_geodesic_lens.html')
 
 ```
+
+<p align="center">
+<a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
+<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_landmark_cover_geodesic_lens.png?raw=true">
+</a>
+</p>
+
+
 
 
 
@@ -165,8 +176,8 @@ lens = mapper.fit_transform(X, projection=[0,1])
 # run KeplerMapper using the CubicalCover
 graph = mapper.map(
     lens=lens, X=X,
-    cover=CubicalCover(n_cubes=8, perc_overlap=0.33),
-    clusterer=AgglomerativeClustering(n_clusters=3, linkage='single'),
+    cover=CubicalCover(n_cubes=8, perc_overlap=0.67),
+    clusterer=AgglomerativeClustering(n_clusters=2, linkage='single'),
     remove_duplicate_nodes=True,
 )
 
@@ -203,7 +214,7 @@ geodesic_distances = r_isomap._reciprocal_distances(X).toarray()
 # run KeplerMapper using the LandmarkCover
 graph = mapper.map(
     lens=geodesic_distances, X=X,
-    cover=LandmarkCover(n_landmarks=30, perc_overlap=0.33),
+    cover=LandmarkCover(n_landmarks=30, perc_overlap=0.35, metric='precomputed'),
     clusterer=AgglomerativeClustering(n_clusters=3, linkage='single'),
     remove_duplicate_nodes=True,
 )
