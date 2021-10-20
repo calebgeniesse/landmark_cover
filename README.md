@@ -2,7 +2,7 @@
 
 A landmark-based cover for KeplerMapper.
 
-The `LandmarkCover` was designed to work with `KeplerMapper`. The class is derived from `kmapper.Cover`, and departs from the existing `CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
+The `LandmarkCover` was designed to work with [KeplerMapper](https://scikit-tda.org/kepler-mapper). The class is derived from the `kmapper.cover.Cover` base class, and departs from the existing `kmapper.cover.CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
 
 
 
@@ -42,7 +42,7 @@ pip install -e .
 ## Usage
 
 
-In the examples below, we look at a set of data points sampled from a trefoil knot. To generate this data, we use the `make_trefoil` tool provided by [dyneusr](https://braindynamicslab.github.io/dyneusr). Note, `dyneusr` is otherwise not required to use the `LandmarkCover`.
+In the examples below, we look at a set of data points sampled from a trefoil knot. To generate this data, we use the `make_trefoil` tool provided by [dyneusr](https://braindynamicslab.github.io/dyneusr). Note, [dyneusr](https://braindynamicslab.github.io/dyneusr) is otherwise not required to use the `LandmarkCover`.
 
 ```python
 from dyneusr.datasets import make_trefoil, draw_trefoil3d
