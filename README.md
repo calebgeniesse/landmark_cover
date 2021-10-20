@@ -42,6 +42,8 @@ pip install -e .
 ## Usage
 
 
+### `LandmarkCover` with a 2D lens
+
 In the examples below, we look at a set of data points sampled from a trefoil knot. To generate this data, we use the `make_trefoil` tool provided by [dyneusr](https://braindynamicslab.github.io/dyneusr). Note, `dyneusr` is otherwise not required to use the `LandmarkCover`.
 
 ```python
@@ -64,9 +66,7 @@ draw_trefoil3d(X[:,0], X[:,1], X[:,2])
 
 
 
-### The `LandmarkCover` object
-
-Here, we will walk through a simple example using `LandmarkCover` with `KeplerMapper`. 
+Here, we show a simple example using `LandmarkCover` with `KeplerMapper`. 
 
 ```python
 from kmapper import KeplerMapper
@@ -91,6 +91,7 @@ graph = mapper.map(
 html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover.html')
 
 ```
+
 
 
 ### `LandmarkCover` and higher dimensional lenses
@@ -140,13 +141,6 @@ html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover_geodesic_lens.
 
 ```
 
-<p align="center">
-<a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
-<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_landmark_cover_geodesic_lens_with_summary.png?raw=true">
-</a>
-</p>
-
-
 
 
 
@@ -183,7 +177,7 @@ html = mapper.visualize(graph, path_html=f'kmapper_cubical_cover.html')
 
 <p align="center">
 <a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
-<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_cubical_cover_with_summary.png?raw=true">
+<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_cubical_cover.png?raw=true">
 </a>
 </p>
 
@@ -221,7 +215,7 @@ html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover_geodesic_lens.
 
 <p align="center">
 <a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
-<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_landmark_cover_geodesic_lens_with_summary.png?raw=true">
+<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_landmark_cover_geodesic_lens.png?raw=true">
 </a>
 </p>
 
