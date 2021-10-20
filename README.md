@@ -2,7 +2,7 @@
 
 A landmark-based cover for KeplerMapper.
 
-The `LandmarkCover` was designed to work with [KeplerMapper](https://scikit-tda.org/kepler-mapper). The class is derived from the `kmapper.cover.Cover` base class, and departs from the existing `kmapper.cover.CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
+The `LandmarkCover` object was designed to work with [KeplerMapper](https://scikit-tda.org/kepler-mapper). The class is derived from the `kmapper.cover.Cover` base class, and departs from the existing `kmapper.cover.CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
 
 
 
