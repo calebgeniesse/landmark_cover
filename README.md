@@ -60,7 +60,7 @@ draw_trefoil3d(X[:,0], X[:,1], X[:,2])
 
 <p align="center">
 <a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
-<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/trefoil_knot.png?raw=true">
+<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/trefoil_knot.png?raw=true" height="200">
 </a>
 </p>
 
@@ -114,7 +114,7 @@ geodesic_distances = r_isomap._reciprocal_distances(X).toarray()
 
 <p align="center">
 <a href="https://github.com/calebgeniesse/landmark_cover/tree/main/examples/trefoil_knot/">
-<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/geodesic_lens.png?raw=true">
+<img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/geodesic_lens.png?raw=true" height="300">
 </a>
 </p>
 
