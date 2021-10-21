@@ -17,6 +17,8 @@ A landmark-based cover for KeplerMapper.
 * [scipy](https://www.scipy.org/)
 * [scikit-learn](https://scikit-learn.org)
 * [kmapper](https://scikit-tda.org/kepler-mapper)
+* [torch](https://pytorch.org)
+* [torch_cluster](https://github.com/rusty1s/pytorch_cluster)
 
 
 ### Install using pip
