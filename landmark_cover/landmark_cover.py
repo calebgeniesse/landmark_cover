@@ -121,7 +121,8 @@ class LandmarkCover(Cover):
         neighbors_estimator.fit(indexless_data)
 
         # compute radius (i.e., max min distance to a landmark)
-        if self.radius is None:
+        radius = self.radius
+        if radius is None:
             landmark_distances = neighbors_estimator.kneighbors_graph(
                 X=centers, n_neighbors=n_samples, mode='distance',
             )
