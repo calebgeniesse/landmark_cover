@@ -5,6 +5,17 @@ A landmark-based cover for KeplerMapper.
 `LandmarkCover` was designed to work with [KeplerMapper](https://scikit-tda.org/kepler-mapper). The class is derived from the `kmapper.Cover` base class, and departs from the existing `CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
 
 
+## Related Projects
+
+- **[NeuMapper.](https://braindynamicslab.github.io/neumapper/)**&nbsp;A scalable Mapper algorithm for neuroimaging data analysis. The Matlab implementation was designed specifically for working with complex, high-dimensional neuroimaging data and produces a shape graph representation that can be annotated with meta-information and further examined using network science tools.
+
+- **[Reciprocal Isomap.](https://calebgeniesse.github.io/reciprocal_isomap)**&nbsp;A reciprocal variant of Isomap for robust non-linear dimensionality reduction in Python. `ReciprocalIsomap` was inspired by scikit-learn's implementation of Isomap, but the reciprocal variant enforces shared connectivity in the underlying *k*-nearest neighbors graph (i.e., two points are only considered neighbors if each is a neighbor of the other).
+
+- **[Partial Cluster.](https://github.com/calebgeniesse/pcluster)**&nbsp;A partial clustering wrapper for Mapper. `PartialCluster` wraps around a user-specified clustering algorithm to enable globally-aware partial clustering. By pre-clustering an entire dataset, *local* subsets of the data can be partially clustered based on their *global* cluster assignments.
+
+- **[DyNeuSR.](https://braindynamicslab.github.io/dyneusr/)**&nbsp;A Python visualization library for topological representations of neuroimaging data. The package combines visual web components with a high-level Python interface for interacting with, manipulating, and visualizing topological graph representations of functional brain activity.
+
+
 
 ## Setup
 
