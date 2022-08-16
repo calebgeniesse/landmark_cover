@@ -1,4 +1,4 @@
-# landmark_cover
+# Landmark Cover
 
 A landmark-based cover for KeplerMapper.
 
@@ -231,6 +231,17 @@ html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover_geodesic_lens.
 <img src="https://github.com/calebgeniesse/landmark_cover/blob/main/examples/trefoil_knot/kmapper_landmark_cover_geodesic_lens.png?raw=true">
 </a>
 </p>
+
+
+
+
+
+## **References**
+
+If you find Landmark Cover useful, please consider citing:
+> Geniesse, C., Chowdhury, S., & Saggar, M. (2022). NeuMapper: A Scalable Computational Framework for Multiscale Exploration of the Brain's Dynamical Organization. Network Neuroscience, Advance publication. doi:10.1162/netn_a_00229
+
+
 
 
 
