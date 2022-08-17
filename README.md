@@ -246,7 +246,7 @@ html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover_geodesic_lens.
 ## **Citation**
 
 If you find Landmark Cover useful, please consider citing:
-> Geniesse, C., Chowdhury, S., & Saggar, M. (2022). NeuMapper: A Scalable Computational Framework for Multiscale Exploration of the Brain's Dynamical Organization. Network Neuroscience, Advance publication. doi:10.1162/netn_a_00229
+> Geniesse, C., Chowdhury, S., & Saggar, M. (2022). [NeuMapper: A Scalable Computational Framework for Multiscale Exploration of the Brain's Dynamical Organization](https://doi.org/10.1162/netn_a_00229). *Network Neuroscience*, Advance publication. doi:10.1162/netn_a_00229
 
 
 
