@@ -1,8 +1,11 @@
 # Landmark Cover
 
-A landmark-based cover for KeplerMapper.
+[Landmark Cover](https://calebgeniesse.github.io/landmark_cover) is a Python implementation of [NeuMapper](https://braindynamicslab.github.io/neumapper/)'s landmark-based cover.
 
-`LandmarkCover` was designed to work with [KeplerMapper](https://scikit-tda.org/kepler-mapper). The class is derived from the `kmapper.Cover` base class, and departs from the existing `CubicalCover` class by adding an additional landmark selection step during the fitting process, and then computing an "intrinsic" cover based on distances between the data and these landmarks during the transform process.
+The `LandmarkCover` transformer was designed for use with [KeplerMapper](https://kepler-mapper.scikit-tda.org/en/latest/), but rather than dividing an *extrinsic* space (e.g., low-dimensional projection) into overlapping hypercubes, the landmark-based approach directly partitions data points into overlapping subsets based on their *intrinsic* distances from pre-selected landmark points.
+
+`LandmarkCover` derives from [KeplerMapper](https://kepler-mapper.scikit-tda.org/en/latest/)'s `Cover` base class and can be used in place of the default `CubicalCover`.
+
 
 
 ## Related Projects
