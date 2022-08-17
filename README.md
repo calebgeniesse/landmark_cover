@@ -4,7 +4,6 @@
 
 The `LandmarkCover` transformer was designed for use with [KeplerMapper](https://kepler-mapper.scikit-tda.org/en/latest/), but rather than dividing an *extrinsic* space (e.g., low-dimensional projection) into overlapping hypercubes, the landmark-based approach directly partitions data points into overlapping subsets based on their *intrinsic* distances from pre-selected landmark points.
 
-`LandmarkCover` derives from [KeplerMapper](https://kepler-mapper.scikit-tda.org/en/latest/)'s `Cover` base class and can be used in place of the default `CubicalCover`.
 
 
 
