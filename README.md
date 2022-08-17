@@ -4,6 +4,7 @@
 
 The `LandmarkCover` transformer was designed for use with [KeplerMapper](https://kepler-mapper.scikit-tda.org/en/latest/), but rather than dividing an *extrinsic* space (e.g., low-dimensional projection) into overlapping hypercubes, the landmark-based approach directly partitions data points into overlapping subsets based on their *intrinsic* distances from pre-selected landmark points.
 
+Unlike [KeplerMapper](https://kepler-mapper.scikit-tda.org/en/latest/)'s `CubicalCover`, which scales exponentially with the dimensionality of the lens (i.e., `O(n_cubes ** lens.shape[1])`), `LandmarkCover` can be used to efficiently partition higher dimensional embeddings, or even the input data itself. Below we show examples using an entire pairwise geodesic distance matrix as a high dimensional lens. 
 
 
 
@@ -110,9 +111,9 @@ html = mapper.visualize(graph, path_html=f'kmapper_landmark_cover.html')
 
 ### `LandmarkCover` and higher dimensional lenses
 
-Unlike `CubicalCover`, the computational complexity of `LandmarkCover` does not depend on the dimensionality of the lens. This means we can use higher dimensional embeddings as lenses for `KeplerMapper` without suffering the exponential cost (i.e., `O(n_cubes ** lens.shape[1])`) of the more traditional grid-based cover. For example, we can fit the `LandmarkCover` to the entire data matrix, or any subset thereof. Since the data we are using is already relatively low dimensional, below we use geodesic distances as an example of a *higher* dimensional lens. 
+Now, let's explore a high dimensional lens based on pairwise distances (i.e., since `X` is already low dimensional). 
 
-First, let's compute geodesic distances on a reciprocal neighbor graph. For simplicity, we utilize the [reciprocal_isomap](https://github.com/calebgeniesse/reciprocal_isomap) package, which implements a variant of the `Isomap` algorithm that uses a reciprocal neighbor matrix under the hood. Note, in the example below, we aren't fitting the `ReciprocalIsomap` model, just using the internal `_reciprocal_distances` method to compute reciprocal geodesic distances.
+First, we can compute geodesic distances on a reciprocal neighbor graph using the [reciprocal_isomap](https://github.com/calebgeniesse/reciprocal_isomap) package. Note, in the example below, we aren't fitting the `ReciprocalIsomap` model, just using the internal `_reciprocal_distances` method to compute reciprocal geodesic distances.
 
 ```python
 from reciprocal_isomap import ReciprocalIsomap
